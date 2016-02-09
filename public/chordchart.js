@@ -11,7 +11,7 @@ var chord = d3.layout.chord()
 
 var width = 960,
     height = 720,
-    innerRadius = 300,
+    innerRadius = 150,
     outerRadius = innerRadius * 1.1;
 
 var fill = d3.scale.ordinal()
