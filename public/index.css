@@ -6,3 +6,13 @@ body {
   stroke: #000;
   stroke-width: .5px;
 }
+
+#date-slider {
+	float: left;
+	margin: auto;
+	width: 25%;
+}
+
+#chart {
+	float:left;
+}
