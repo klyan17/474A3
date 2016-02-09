@@ -10,7 +10,7 @@ $(document).ready(function() {
       .sortSubgroups(d3.descending)
       .matrix(matrix);
 
-  var width = 960,
+  var width = 720,
       height = 720,
       innerRadius = 150,
       outerRadius = innerRadius * 1.1;

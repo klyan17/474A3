@@ -7,12 +7,12 @@ body {
   stroke-width: .5px;
 }
 
-#date-slider {
-	float: left;
+#chart {
+	width: 720px;
+	height: 720px;
 	margin: auto;
-	width: 25%;
 }
 
-#chart {
-	float:left;
+#ui {
+	padding: 50px;
 }
