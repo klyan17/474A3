@@ -1,0 +1,23 @@
+{
+  "name": "474a3",
+  "version": "1.0.0",
+  "description": "data visualization assignment 3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klyan17/474A3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/klyan17/474A3/issues"
+  },
+  "homepage": "https://github.com/klyan17/474A3#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "morgan": "^1.6.1"
+  }
+}
