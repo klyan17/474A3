@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	
 //date slider======================================
 	$("#date-slider").dateRangeSlider({
 		defaultValues:{
