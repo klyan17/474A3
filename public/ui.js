@@ -10,6 +10,7 @@ $(document).ready(function() {
 		arrows: false});
 
 	$("#date-slider").on("valuesChanging", function(e, data) {
-		console.log("min date: " + data.values.min + " max date: " + data.values.max);
+		// console.log("min date: " + data.values.min + " max date: " + data.values.max);
+		printMoviesByDate(data.values.min, data.values.max);
 	});
 });	
