@@ -1,3 +1,5 @@
+var date1;
+var date2;
 $(document).ready(function() {
 //date slider======================================
 	$("#date-slider").dateRangeSlider({
@@ -11,6 +13,12 @@ $(document).ready(function() {
 
 	$("#date-slider").on("valuesChanging", function(e, data) {
 		// console.log("min date: " + data.values.min + " max date: " + data.values.max);
-		printMoviesByDate(data.values.min, data.values.max);
+		date1 = data.values.min 
+		date2 = data.values.max
+		setFilteredMovie(date1, date2);
 	});
+
+	$(function() {
+    	$( "#radio" ).buttonset();
+  	});
 });	

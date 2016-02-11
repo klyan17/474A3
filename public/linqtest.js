@@ -5,6 +5,7 @@ var distributorList = ["IFC Films", "Magnolia Pictures", "Warner Bros."
 						, "Walt Disney"];
 var top10Distributors;
 var resultMovies;
+var genreListOrdered;
 $(document).ready(function() {
 	//parse data
 	var datapath = "movies-2014.csv";
@@ -27,7 +28,9 @@ $(document).ready(function() {
 	.where(function(x) { return filterTopDistributor(x)})
 	.orderBy(function(x) { return x.distributor});
 	
+	getGenre();
 	console.log(top10Distributors);
+	console.log(genreListOrdered);
 });
 
 function filterTopDistributor(x) {
@@ -37,7 +40,7 @@ function filterTopDistributor(x) {
 	return false;
 }
 
-function printMoviesByDate(date1, date2) {
+function setFilteredMovie(date1, date2) {
 	resultMovies = top10Distributors.where(function(x) { return filterByDate(x,date1,date2)});
 	console.log(resultMovies);
 }
@@ -47,4 +50,12 @@ function filterByDate(x, date1, date2) {
 	var minDate = (date1 < date2 ? date1 : date2);
 	var xDate = new Date(x.released);
 	return minDate <= xDate && xDate <= maxDate;
+}
+
+function getGenre() {
+	genreListOrdered = top10Distributors
+		.select(x => x.genre)
+		.groupBy( x => x)
+		.orderBy(x => x.length)
+		;
 }
