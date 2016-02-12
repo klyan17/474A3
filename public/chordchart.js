@@ -1,16 +1,19 @@
-$(document).ready(function() {
+var movieMatrix = [[],[],[],[],[],[],[],[],[],[]
+                  ,[],[],[],[],[],[],[],[],[],[]];
 
-  var matrix = [
-    [0, 0, 0, 100, 100, 1000],
-    [0, 0, 0, 25, 50, 500],
-    [0, 0, 0, 10, 250, 250],
-    [100, 50, 25, 0, 0, 0],
-    [100, 50, 25, 0, 0, 0],
-    [1000, 50, 25, 0, 0, 0]
-  ];
+function createChart(matrix) {
+
+  // var matrix = [
+  //   [0, 0, 0, 100, 100, 1000],
+  //   [0, 0, 0, 25, 50, 500],
+  //   [0, 0, 0, 10, 250, 250],
+  //   [100, 50, 25, 0, 0, 0],
+  //   [100, 50, 25, 0, 0, 0],
+  //   [1000, 50, 25, 0, 0, 0]
+  // ];
 
   var chord = d3.layout.chord()
-      .sortSubgroups(d3.descending)
+      //.sortSubgroups(d3.descending)
       .matrix(matrix);
 
   var width = 720,
@@ -34,10 +37,11 @@ $(document).ready(function() {
     .enter().append("path")
       .style("fill", function(d) { return fill(d.index); })
       .style("stroke", function(d) { return fill(d.index); })
-      .attr("d", d3.svg.arc().innerRadius(outerRadius).outerRadius(function(d) { return outerRadius + Math.random() * 100}))
+      .attr("d", d3.svg.arc().innerRadius(outerRadius).outerRadius(function(d) { return outerRadius + d.value * 1.5}))
       .on("mouseover", fade(.1))
       .on("mouseout", fade(1));
 
+//creates the inner circle
   svg.append("g").selectAll("path")
       .data(chord.groups)
     .enter().append("path")
@@ -65,4 +69,4 @@ $(document).ready(function() {
           .style("opacity", opacity);
     };
   }
-});
+}

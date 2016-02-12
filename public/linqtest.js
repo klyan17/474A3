@@ -3,9 +3,12 @@ var distributorList = ["IFC Films", "Magnolia Pictures", "Warner Bros."
 						, "Kino Lorber", "20th Century Fox", "Sony Pictures"
 						, "Lionsgate", "Sony Pictures Classics", "Universal"
 						, "Walt Disney"];
+var genreList = ["Drama", "Comedy", "Documentary", "Adventure", "Action"
+				, "Thriller/Suspense", "Horror", "Romantic Comedy", "Musical"
+				, "Black Comedy"];
 var top10Distributors;
 var resultMovies;
-var genreListOrdered;
+
 $(document).ready(function() {
 	//parse data
 	var datapath = "movies-2014.csv";
@@ -27,10 +30,13 @@ $(document).ready(function() {
 	top10Distributors = movieList
 	.where(function(x) { return filterTopDistributor(x)})
 	.orderBy(function(x) { return x.distributor});
-	
-	getGenre();
-	console.log(top10Distributors);
-	console.log(genreListOrdered);
+
+	resultMovies = top10Distributors;
+	//console.log(top10Distributors);
+	//console.log(genreList);
+	createMovieMatrix();
+	setMatrix(resultMovies);
+	createChart(movieMatrix);
 });
 
 function filterTopDistributor(x) {
@@ -42,7 +48,7 @@ function filterTopDistributor(x) {
 
 function setFilteredMovie(date1, date2) {
 	resultMovies = top10Distributors.where(function(x) { return filterByDate(x,date1,date2)});
-	console.log(resultMovies);
+	//console.log(resultMovies);
 }
 
 function filterByDate(x, date1, date2) {
@@ -52,10 +58,21 @@ function filterByDate(x, date1, date2) {
 	return minDate <= xDate && xDate <= maxDate;
 }
 
-function getGenre() {
-	genreListOrdered = top10Distributors
-		.select(x => x.genre)
-		.groupBy( x => x)
-		.orderBy(x => x.length)
-		;
+function createMovieMatrix() {
+	for (var i = 0; i < 20; i++) {
+		for (var j = 0; j < 20; j++) {
+			movieMatrix[i][j] = 0;
+		}
+	}
+}
+
+function setMatrix(m) {
+	jQuery.each(m, function() {
+		var distIndex = distributorList.indexOf(this.distributor);
+		var genreIndex = 19 - genreList.indexOf(this.genre);
+		movieMatrix[distIndex][genreIndex] += 1;
+		movieMatrix[genreIndex][distIndex] += 1;
+		// console.log(this.distributor + ":" + distIndex);
+		// console.log(this.genre + ":" + genreIndex);
+	});
 }
