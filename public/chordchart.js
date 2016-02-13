@@ -1,5 +1,7 @@
 var movieMatrix = [[],[],[],[],[],[],[],[],[],[]
                   ,[],[],[],[],[],[],[],[],[],[]];
+var svg;
+var fill;
 
 function createChart(matrix) {
 
@@ -12,12 +14,12 @@ function createChart(matrix) {
       innerRadius = 200,
       outerRadius = innerRadius * 1.25;
 
-  var fill = d3.scale.ordinal()
+  fill = d3.scale.ordinal()
       .domain(d3.range(20))
       .range(['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a'
         ,'#8dd3c7','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#d9d9d9','#bc80bd']);
 
-  var svg = d3.select("#chart").append("svg")
+  svg = d3.select("#chart").append("svg")
       .attr("width", width)
       .attr("height", height)
     .append("g")
@@ -54,7 +56,7 @@ function createChart(matrix) {
       .data(chord.chords)
     .enter().append("path")
       .attr("d", d3.svg.chord().radius(innerRadius))
-      .style("fill", function(d) { return fill(d.target.index); })
+      .style("fill", function(d) { return fill(d.source.index); })
       .style("stroke", function(d) { return "white";})
       .style("opacity", 1);
 
@@ -68,3 +70,14 @@ function createChart(matrix) {
     };
   }
 }
+
+function colorSwap(option) {
+    svg.selectAll(".chord path")
+      .style("fill", function(d) { 
+        if (option == "target") {
+          return fill(d.target.index)
+        } else {
+          return fill(d.source.index);
+        }
+      });
+  }
