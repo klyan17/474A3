@@ -3,22 +3,13 @@ var movieMatrix = [[],[],[],[],[],[],[],[],[],[]
 
 function createChart(matrix) {
 
-  // var matrix = [
-  //   [0, 0, 0, 100, 100, 1000],
-  //   [0, 0, 0, 25, 50, 500],
-  //   [0, 0, 0, 10, 250, 250],
-  //   [100, 50, 25, 0, 0, 0],
-  //   [100, 50, 25, 0, 0, 0],
-  //   [1000, 50, 25, 0, 0, 0]
-  // ];
-
   var chord = d3.layout.chord()
-      //.sortSubgroups(d3.descending)
+      .padding(0.025)
       .matrix(matrix);
 
-  var width = 720,
-      height = 720,
-      innerRadius = 150,
+  var width = 1000,
+      height = 800,
+      innerRadius = 200,
       outerRadius = innerRadius * 1.25;
 
   var fill = d3.scale.ordinal()
@@ -30,14 +21,19 @@ function createChart(matrix) {
       .attr("width", width)
       .attr("height", height)
     .append("g")
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ") rotate(-90)");
 
+  var innerCircle = svg.append("circle")
+      .attr("r", innerRadius)
+      .attr("fill", "#333");
+
+//creates the height of the sections
   svg.append("g").selectAll("path")
       .data(chord.groups)
     .enter().append("path")
       .style("fill", function(d) { return fill(d.index); })
       .style("stroke", function(d) { return fill(d.index); })
-      .attr("d", d3.svg.arc().innerRadius(outerRadius).outerRadius(function(d) { return outerRadius + d.value * 1.5}))
+      .attr("d", d3.svg.arc().innerRadius(outerRadius).outerRadius(function(d) { return outerRadius + d.value * 1.5; }))
       .on("mouseover", fade(.1))
       .on("mouseout", fade(1));
 
@@ -51,6 +47,7 @@ function createChart(matrix) {
       .on("mouseover", fade(.1))
       .on("mouseout", fade(1));
 
+//creates the chords
   svg.append("g")
       .attr("class", "chord")
     .selectAll("path")
@@ -58,6 +55,7 @@ function createChart(matrix) {
     .enter().append("path")
       .attr("d", d3.svg.chord().radius(innerRadius))
       .style("fill", function(d) { return fill(d.target.index); })
+      .style("stroke", function(d) { return "white";})
       .style("opacity", 1);
 
   // Returns an event handler for fading a given chord group.
