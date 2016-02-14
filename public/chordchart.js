@@ -59,6 +59,8 @@ function createChart(matrix) {
             + (d.angle < (Math.PI/2) ? "rotate(180)" : "")
             + (d.angle > (3 * Math.PI/2) ? "rotate(180)" : "");
       })
+      .attr("font-size", "15px")
+      .style("fill", function(d) { return fill(d.index); })
       .text(function(d) { console.log(matrixList[d.index]); return matrixList[d.index]; });
 
 //creates the inner circle
