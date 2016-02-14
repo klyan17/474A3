@@ -19,7 +19,7 @@ $(document).ready(function() {
 // 	});
 
 	$(function() {
-    	$( "#radio" ).buttonset();
+    	$( "#radiocolor" ).buttonset();
   	});
   	$("#radioMovie").click(function() {
   		swapColors();
