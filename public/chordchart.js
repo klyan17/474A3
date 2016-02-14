@@ -25,6 +25,7 @@ function createChart(matrix) {
     .append("g")
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ") rotate(-90)");
 
+//create inner black circle
   var innerCircle = svg.append("circle")
       .attr("r", innerRadius)
       .attr("fill", "#333");
@@ -71,7 +72,7 @@ function createChart(matrix) {
   }
 }
 
-function colorSwap(option) {
+function swapColors(option) {
     svg.selectAll(".chord path")
       .style("fill", function(d) { 
         if (option == "target") {
@@ -81,3 +82,7 @@ function colorSwap(option) {
         }
       });
   }
+
+function updateChart() {
+
+}
