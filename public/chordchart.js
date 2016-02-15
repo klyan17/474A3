@@ -10,9 +10,10 @@ var maxBarHeight = 40;
 var svg;
 var fill;
 var width = 1000,
-    height = 925,
+    height = 800,
     innerRadius = 200,
     outerRadius = innerRadius * 1.25;
+    
 function createChart(matrix) {
 
   var chord = d3.layout.chord()
@@ -105,11 +106,10 @@ function createChart(matrix) {
 function displayInfo(d) {
   console.log(d);
   if (d.index > 9) {
-    //getGenreDetail()
+    getGenreDetail(matrixList[d.index]);
   } else {
-    //getDistDetail()
+    getDistDetail(matrixList[d.index]);
   }
-  console.log(matrixList[d.index]);
 }
 
 function swapColors(option) {

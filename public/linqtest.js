@@ -44,17 +44,17 @@ function filterTopDistributor(x) {
 	return false;
 }
 
-function setFilteredMovie(date1, date2) {
-	resultMovies = top10Distributors.where(function(x) { return filterByDate(x,date1,date2)});
-	//console.log(resultMovies);
-}
+// function setFilteredMovie(date1, date2) {
+// 	resultMovies = top10Distributors.where(function(x) { return filterByDate(x,date1,date2)});
+// 	//console.log(resultMovies);
+// }
 
-function filterByDate(x, date1, date2) {
-	var maxDate = (date1 > date2 ? date1 : date2);
-	var minDate = (date1 < date2 ? date1 : date2);
-	var xDate = new Date(x.released);
-	return minDate <= xDate && xDate <= maxDate;
-}
+// function filterByDate(x, date1, date2) {
+// 	var maxDate = (date1 > date2 ? date1 : date2);
+// 	var minDate = (date1 < date2 ? date1 : date2);
+// 	var xDate = new Date(x.released);
+// 	return minDate <= xDate && xDate <= maxDate;
+// }
 
 function createMovieMatrix() {
 	for (var i = 0; i < 20; i++) {
@@ -102,9 +102,104 @@ function getMaxValue() {
 }
 
 function getGenreDetail(genre) {
+//set up
+	var list = top10Distributors.where(function(x) { return x.genre == genre});
+	var result = "<h2>" + genre + "</h2>"
+				+"<p><strong>There were " + list.length + " " + genre + " films released</strong></p>"
+				+"\n<table>"
+				+"\n<tr><th>Distributor</th><th>Number of Releases</th></tr>";
+	var distResult = [0,0,0,0,0,0,0,0,0,0];
+	var grossResult = [0,0,0,0,0,0,0,0,0,0];
+	var totalGross = 0;
 
+//collect data
+	jQuery.each(list, function() {
+		var distIndex = matrixList.indexOf(this.distributor);
+		distResult[distIndex] += 1;
+		grossResult[distIndex] += this.gross;
+		totalGross += this.gross;
+	});
+
+//how many films released	
+	for (var i = 0; i < 10; i++) {
+		genreCount = distResult[i];
+		if (genreCount > 0) {
+			result += "\n<tr>"
+						+"\n<td>" + matrixList[i] + "</td>"
+					   	+"\n<td>" + genreCount + "</td>"
+			   		  +"\n</tr>";
+		}
+	}
+	result += "\n</table>";
+
+//how much money it made
+	result += "\n<p><strong>" + genre + " movies grossed $" + intToMoney(totalGross) + "</strong></p>"
+			 +"\n<table>"
+			 +"\n<tr><th>Distributor</th><th>Gross Amount</th></tr>";
+	for (var i = 0; i < 10; i++) {
+		grossCount = grossResult[i];
+		if (grossCount > 0) {
+			result += "\n<tr>"
+						+"\n<td>" + matrixList[i] + "</td>"
+					   	+"\n<td>$" + intToMoney(grossCount) + "</td>"
+			   		  +"\n</tr>";
+		}
+	}
+	result += "\n</table>";
+	
+	$("#details").html(result);
 }
 
-function getDistDetail(genre) {
+//returns html of distributor detail
+function getDistDetail(dist) {
+//set up
+	var list = top10Distributors.where(function(x) { return x.distributor == dist});
+	var result = "<h2>" + dist + "</h2>"
+				+"<p><strong>" + dist + " released " + list.length + " films</strong></p>"
+				+"\n<table>"
+				+"\n<tr><th>Genre</th><th>Number of Releases</th></tr>";
+	var genreResult = [0,0,0,0,0,0,0,0,0,0];
+	var grossResult = [0,0,0,0,0,0,0,0,0,0];
+	var totalGross = 0;
+
+//collect data
+	jQuery.each(list, function() {
+		var genreIndex = matrixList.indexOf(this.genre) - 10;
+		genreResult[genreIndex] += 1;
+		grossResult[genreIndex] += this.gross;
+		totalGross += this.gross;
+	});
+
+//how many films released	
+	for (var i = 0; i < 10; i++) {
+		genreCount = genreResult[i];
+		if (genreCount > 0) {
+			result += "\n<tr>"
+						+"\n<td>" + matrixList[i + 10] + "</td>"
+					   	+"\n<td>" + genreCount + "</td>"
+			   		  +"\n</tr>";
+		}
+	}
+	result += "\n</table>";
+
+//how much money it made
+	result += "\n<p><strong>" + dist + " grossed $" + intToMoney(totalGross) + "</strong></p>"
+			 +"\n<table>"
+			 +"\n<tr><th>Genre</th><th>Gross Amount</th></tr>";
+	for (var i = 0; i < 10; i++) {
+		grossCount = grossResult[i];
+		if (grossCount > 0) {
+			result += "\n<tr>"
+						+"\n<td>" + matrixList[i + 10] + "</td>"
+					   	+"\n<td>$" + intToMoney(grossCount) + "</td>"
+			   		  +"\n</tr>";
+		}
+	}
+	result += "\n</table>";
 	
+	$("#details").html(result);
+}
+
+function intToMoney(i) {
+	return i.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 }
