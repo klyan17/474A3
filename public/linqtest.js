@@ -34,7 +34,7 @@ $(document).ready(function() {
 	//console.log(top10Distributors);
 	//console.log(genreList);
 	createMovieMatrix();
-	setMatrix(resultMovies);
+	setMatrixFilmCount(resultMovies);
 	createChart(movieMatrix);
 });
 
@@ -65,12 +65,23 @@ function createMovieMatrix() {
 	}
 }
 
-function setMatrix(m) {
+function setMatrixFilmCount(m) {
 	jQuery.each(m, function() {
 		var distIndex = matrixList.indexOf(this.distributor);
 		var genreIndex = matrixList.indexOf(this.genre);
 		movieMatrix[distIndex][genreIndex] += 1;
 		movieMatrix[genreIndex][distIndex] += 1;
+		// console.log(this.distributor + ":" + distIndex);
+		// console.log(this.genre + ":" + genreIndex);
+	});
+}
+
+function setMatrixGross(m) {
+	jQuery.each(m, function() {
+		var distIndex = matrixList.indexOf(this.distributor);
+		var genreIndex = matrixList.indexOf(this.genre);
+		movieMatrix[distIndex][genreIndex] += this.gross;
+		movieMatrix[genreIndex][distIndex] += this.gross;
 		// console.log(this.distributor + ":" + distIndex);
 		// console.log(this.genre + ":" + genreIndex);
 	});

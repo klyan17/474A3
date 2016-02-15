@@ -39,10 +39,11 @@ function createChart(matrix) {
       .style("stroke", function(d) { return fill(d.index); })
       // .attr("d", d3.svg.arc().innerRadius(outerRadius).outerRadius(function(d) { return outerRadius + d.value * 1.5; }))
       .attr("d", d3.svg.arc().innerRadius(innerRadius).outerRadius(function(d) { return innerRadius + (d.value * 3); }))
-      .on("click", fade(.1))
-      .on("mouseover", function(d) { displayInfo(d); })
+      .on("mouseover", fade(.1))
+      .on("click", function(d) { displayInfo(d); })
       .on("mouseout", fade(1));
 
+//creates labels
   svg.append("g").selectAll("text")
       .data(chord.groups)
     .enter()
@@ -111,6 +112,16 @@ function swapColors(option) {
       });
   }
 
-function updateChart() {
+function showGross() {
+  setMatrixGross(resultMovies);
+  updateChart();
+}
 
+function showFilmCount() {
+  setMatrixFilmCount(resultMovies);
+  updateChart();
+}
+
+function updateChart() {
+  console.log("update chart");
 }
