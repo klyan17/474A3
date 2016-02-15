@@ -1,7 +1,9 @@
 body {
   font: 10px sans-serif;
-    background-color: black;
+  background-color: #3D3E3D;
+  margin: 0px;
 }
+
 .chord path {
   fill-opacity: .67;
   stroke: #000;
@@ -16,9 +18,14 @@ body {
     padding: 1em;
 }
 
-#kev {
-    background-image: url("474bg-01.png");
-    background-size: cover;
+#rectangle {
+    position: absolute;
+    background-color: #5D5E5F;
+    height: 557px;
+    width: 100%;
+    left: 0px;
+    top: 0px;
+    z-index:-1;
 }
 
 #chart {

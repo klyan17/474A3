@@ -35,11 +35,6 @@ function createChart(matrix) {
       .attr("r", innerRadius)
       .attr("fill", "#333");
 
-//background circle
-  var backgroundCircle = svg.append("circle")
-  .attr("r", height/2)
-  .attr("id", "kev");
-
 //creates the height of the sections
   var arcs = svg.append("g").selectAll("path")
       .data(chord.groups);
@@ -118,15 +113,22 @@ function displayInfo(d) {
 }
 
 function swapColors(option) {
-    svg.selectAll(".chord path")
-      .style("fill", function(d) { 
-        if (option == "target") {
-          return fill(d.target.index)
-        } else {
-          return fill(d.source.index);
-        }
-      });
-  }
+  svg.selectAll(".chord path")
+    .style("fill", function(d) { 
+      if (option == "target") {
+        return fill(d.target.index)
+      } else {
+        return fill(d.source.index);
+      }
+    })
+    .style("stroke", function(d) { 
+      if (option == "target") {
+        return LightenDarkenColor(fill(d.target.index), 20);
+      } else {
+        return LightenDarkenColor(fill(d.source.index), 20);
+      }
+    });
+}
 
 function showGross() {
   setMatrixGross(resultMovies);
@@ -181,31 +183,20 @@ function updateChart() {
 
 
 function LightenDarkenColor(col, amt) {
-  
     var usePound = false;
-  
     if (col[0] == "#") {
         col = col.slice(1);
         usePound = true;
     }
- 
     var num = parseInt(col,16);
- 
     var r = (num >> 16) + amt;
- 
     if (r > 255) r = 255;
     else if  (r < 0) r = 0;
- 
     var b = ((num >> 8) & 0x00FF) + amt;
- 
     if (b > 255) b = 255;
     else if  (b < 0) b = 0;
- 
     var g = (num & 0x0000FF) + amt;
- 
     if (g > 255) g = 255;
     else if (g < 0) g = 0;
- 
     return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
-  
 }
