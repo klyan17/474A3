@@ -100,3 +100,11 @@ function getMaxValue() {
 	}
 	maxValue = result;
 }
+
+function getGenreDetail(genre) {
+
+}
+
+function getDistDetail(genre) {
+	
+}
