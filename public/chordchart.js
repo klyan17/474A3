@@ -10,7 +10,7 @@ var maxBarHeight = 40;
 var svg;
 var fill;
 var width = 1000,
-    height = 800,
+    height = 925,
     innerRadius = 200,
     outerRadius = innerRadius * 1.25;
 function createChart(matrix) {
@@ -34,6 +34,11 @@ function createChart(matrix) {
   var innerCircle = svg.append("circle")
       .attr("r", innerRadius)
       .attr("fill", "#333");
+
+//background circle
+  var backgroundCircle = svg.append("circle")
+  .attr("r", height/2)
+  .attr("id", "kev");
 
 //creates the height of the sections
   var arcs = svg.append("g").selectAll("path")
@@ -88,7 +93,7 @@ function createChart(matrix) {
     .enter().append("path")
       .attr("d", d3.svg.chord().radius(innerRadius))
       .style("fill", function(d) { return fill(d.source.index); })
-      .style("stroke", function(d) { return "white";})
+      .style("stroke", function(d) { return LightenDarkenColor(fill(d.source.index), 20);})
       .style("opacity", 1);
 
   // Returns an event handler for fading a given chord group.
@@ -104,6 +109,11 @@ function createChart(matrix) {
 
 function displayInfo(d) {
   console.log(d);
+  if (d.index > 9) {
+    //getGenreDetail()
+  } else {
+    //getDistDetail()
+  }
   console.log(matrixList[d.index]);
 }
 
@@ -167,4 +177,35 @@ function updateChart() {
       .attr("d", d3.svg.chord().radius(innerRadius));
 
   console.log("update chart");
+}
+
+
+function LightenDarkenColor(col, amt) {
+  
+    var usePound = false;
+  
+    if (col[0] == "#") {
+        col = col.slice(1);
+        usePound = true;
+    }
+ 
+    var num = parseInt(col,16);
+ 
+    var r = (num >> 16) + amt;
+ 
+    if (r > 255) r = 255;
+    else if  (r < 0) r = 0;
+ 
+    var b = ((num >> 8) & 0x00FF) + amt;
+ 
+    if (b > 255) b = 255;
+    else if  (b < 0) b = 0;
+ 
+    var g = (num & 0x0000FF) + amt;
+ 
+    if (g > 255) g = 255;
+    else if (g < 0) g = 0;
+ 
+    return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+  
 }
