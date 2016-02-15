@@ -33,7 +33,6 @@ $(document).ready(function() {
 	resultMovies = top10Distributors;
 	//console.log(top10Distributors);
 	//console.log(genreList);
-	createMovieMatrix();
 	setMatrixFilmCount(resultMovies);
 	createChart(movieMatrix);
 });
@@ -66,6 +65,7 @@ function createMovieMatrix() {
 }
 
 function setMatrixFilmCount(m) {
+	createMovieMatrix();
 	jQuery.each(m, function() {
 		var distIndex = matrixList.indexOf(this.distributor);
 		var genreIndex = matrixList.indexOf(this.genre);
@@ -74,9 +74,11 @@ function setMatrixFilmCount(m) {
 		// console.log(this.distributor + ":" + distIndex);
 		// console.log(this.genre + ":" + genreIndex);
 	});
+	getMaxValue();
 }
 
 function setMatrixGross(m) {
+	createMovieMatrix();
 	jQuery.each(m, function() {
 		var distIndex = matrixList.indexOf(this.distributor);
 		var genreIndex = matrixList.indexOf(this.genre);
@@ -85,4 +87,16 @@ function setMatrixGross(m) {
 		// console.log(this.distributor + ":" + distIndex);
 		// console.log(this.genre + ":" + genreIndex);
 	});
+	getMaxValue();
+}
+
+function getMaxValue() {
+	var result = 0;
+	for (var i = 0; i < 20; i++) {
+		for (var j = 0; j < 20; j++) {
+			var value = movieMatrix[i][j];
+			result = (value > result) ? value : result;
+		}
+	}
+	maxValue = result;
 }
