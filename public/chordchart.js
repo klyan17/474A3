@@ -31,15 +31,38 @@ function createChart(matrix) {
       .attr("fill", "#333");
 
 //creates the height of the sections
-  svg.append("g").selectAll("path")
-      .data(chord.groups)
-    .enter().append("path")
+  var arcs = svg.append("g").selectAll("path")
+      .data(chord.groups);
+
+  var paths = arcs.enter().append("path")
       .style("fill", function(d) { return fill(d.index); })
       .style("stroke", function(d) { return fill(d.index); })
       // .attr("d", d3.svg.arc().innerRadius(outerRadius).outerRadius(function(d) { return outerRadius + d.value * 1.5; }))
       .attr("d", d3.svg.arc().innerRadius(innerRadius).outerRadius(function(d) { return innerRadius + (d.value * 3); }))
-      .on("click", fade(.1))
+      .on("mouseover", fade(.1))
+      .on("click", function(d) { displayInfo(d); })
       .on("mouseout", fade(1));
+
+//creates labels
+  svg.append("g").selectAll("text")
+      .data(chord.groups)
+    .enter()
+    .append("text")
+      .each(function(d) { 
+        d.angle = (d.startAngle + d.endAngle) / 2;
+        d.distance = innerRadius + ((d.value + 3) * 3); 
+      })
+      .attr("dy", ".35em")
+      .attr("text-anchor", function(d) { return (d.angle < (Math.PI/2) || d.angle > (3 * Math.PI/2)) ? "end" : null; })
+      .attr("transform", function(d) {
+        return "rotate(" + ((d.angle * 180 / Math.PI) - 90) + ")"
+            + "translate(" + (d.distance + 10) + ")"
+            + (d.angle < (Math.PI/2) ? "rotate(180)" : "")
+            + (d.angle > (3 * Math.PI/2) ? "rotate(180)" : "");
+      })
+      .attr("font-size", "15px")
+      .style("fill", function(d) { return fill(d.index); })
+      .text(function(d) { console.log(matrixList[d.index]); return matrixList[d.index]; });
 
 //creates the inner circle
   // svg.append("g").selectAll("path")
@@ -73,6 +96,11 @@ function createChart(matrix) {
   }
 }
 
+function displayInfo(d) {
+  console.log(d);
+  console.log(matrixList[d.index]);
+}
+
 function swapColors(option) {
     svg.selectAll(".chord path")
       .style("fill", function(d) { 
@@ -84,6 +112,16 @@ function swapColors(option) {
       });
   }
 
-function updateChart() {
+function showGross() {
+  setMatrixGross(resultMovies);
+  updateChart();
+}
 
+function showFilmCount() {
+  setMatrixFilmCount(resultMovies);
+  updateChart();
+}
+
+function updateChart() {
+  console.log("update chart");
 }

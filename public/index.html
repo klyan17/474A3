@@ -22,20 +22,25 @@
 
 <!-- TEST -->
 	<script src="linqtest.js"></script>
-	
 	<script src="ui.js"></script>
 
 </head>
 <body>
-	<div id="chart">
-	</div>
+	<div id="chart"></div>
+	<div id="details"></div>
 	<div id="ui">
 		<!-- <div id="date-slider"></div> -->
-		<div id="radio">
+
+		<div id="radioColor">
 			<span id="colorButton">Chord Origin Color:</span>
 			<br>
-		    <input type="radio" id="radioMovie" name="radio" checked="checked"><label for="radioMovie">Movies</label>
-		    <input type="radio" id="radioGenre" name="radio"><label for="radioGenre">Genre</label>
+		    <input type="radio" id="radioMovie" name="radioColor" checked="checked"><label for="radioMovie">Movies</label>
+		    <input type="radio" id="radioGenre" name="radioColor"><label for="radioGenre">Genre</label>
+		</div>
+		<div id="radioValue">
+			<span>Values:</span>
+		    <input type="radio" id="radioFilmCount" name="radioValue" checked="checked"><label for="radioFilmCount">Films Distributed</label>
+		    <input type="radio" id="radioGross" name="radioValue"><label for="radioGross">Total Grossing</label>
 		</div>
 	</div>
 </body>
