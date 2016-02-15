@@ -1,18 +1,23 @@
 var movieMatrix = [[],[],[],[],[],[],[],[],[],[]
                   ,[],[],[],[],[],[],[],[],[],[]];
+
+var oneDegree = 0.0174533;
+var minRadian = oneDegree/2;
+
+var maxValue;
+var minBarHeight = 10;
+var maxBarHeight = 40;
 var svg;
 var fill;
-
+var width = 1000,
+    height = 800,
+    innerRadius = 200,
+    outerRadius = innerRadius * 1.25;
 function createChart(matrix) {
 
   var chord = d3.layout.chord()
       .padding(0.025)
       .matrix(matrix);
-
-  var width = 1000,
-      height = 800,
-      innerRadius = 200,
-      outerRadius = innerRadius * 1.25;
 
   fill = d3.scale.ordinal()
       .domain(d3.range(20))
@@ -35,10 +40,11 @@ function createChart(matrix) {
       .data(chord.groups);
 
   var paths = arcs.enter().append("path")
+      .attr("class", "arcs")
       .style("fill", function(d) { return fill(d.index); })
       .style("stroke", function(d) { return fill(d.index); })
       // .attr("d", d3.svg.arc().innerRadius(outerRadius).outerRadius(function(d) { return outerRadius + d.value * 1.5; }))
-      .attr("d", d3.svg.arc().innerRadius(innerRadius).outerRadius(function(d) { return innerRadius + (d.value * 3); }))
+      .attr("d", d3.svg.arc().innerRadius(innerRadius).outerRadius(function(d) { return innerRadius + ((d.value/maxValue) * maxBarHeight) + minBarHeight; }))
       .on("mouseover", fade(.1))
       .on("click", function(d) { displayInfo(d); })
       .on("mouseout", fade(1));
@@ -50,7 +56,7 @@ function createChart(matrix) {
     .append("text")
       .each(function(d) { 
         d.angle = (d.startAngle + d.endAngle) / 2;
-        d.distance = innerRadius + ((d.value + 3) * 3); 
+        d.distance = innerRadius + ((d.value/maxValue) * maxBarHeight) + 10; 
       })
       .attr("dy", ".35em")
       .attr("text-anchor", function(d) { return (d.angle < (Math.PI/2) || d.angle > (3 * Math.PI/2)) ? "end" : null; })
@@ -123,5 +129,42 @@ function showFilmCount() {
 }
 
 function updateChart() {
+  var chord = d3.layout.chord()
+    .padding(0.025)
+    .matrix(movieMatrix);
+
+//readjust the arcs
+  var arcs = svg.selectAll(".arcs")
+        .data(chord.groups)
+        .transition()
+        .each(function(d) {
+          if ((d.endAngle - d.startAngle) < oneDegree) {
+            d.startAngle -= minRadian;
+            d.endAngle += minRadian;
+          }
+        })
+        .attr("d", d3.svg.arc().innerRadius(innerRadius).outerRadius(function(d) { return innerRadius + ((d.value/maxValue) * maxBarHeight) + minBarHeight; }));
+
+//readjust the text
+  var text = svg.selectAll("text")
+      .data(chord.groups)
+      .each(function(d) { 
+        d.angle = (d.startAngle + d.endAngle) / 2;
+        d.distance = innerRadius + ((d.value/maxValue) * maxBarHeight) + 10; 
+      })
+      .transition()
+      .attr("text-anchor", function(d) { return (d.angle < (Math.PI/2) || d.angle > (3 * Math.PI/2)) ? "end" : null; })
+      .attr("transform", function(d) {
+        return "rotate(" + ((d.angle * 180 / Math.PI) - 90) + ")"
+            + "translate(" + (d.distance + 10) + ")"
+            + (d.angle < (Math.PI/2) ? "rotate(180)" : "")
+            + (d.angle > (3 * Math.PI/2) ? "rotate(180)" : "");
+      });
+//readjust the chords
+  var chords = svg.selectAll(".chord path")
+      .data(chord.chords)
+      .transition()
+      .attr("d", d3.svg.chord().radius(innerRadius));
+
   console.log("update chart");
 }
