@@ -124,6 +124,7 @@ function displayInfo(d) {
 
 function swapColors(option) {
   svg.selectAll(".chord path")
+    .transition()
     .style("fill", function(d) { 
       if (option == "target") {
         return fill(d.target.index)
