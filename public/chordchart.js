@@ -99,7 +99,6 @@ for (var i = 0; i < 5; i++) {
       .attr("r", innerRadius + 50 * i)
       .attr("fill", "none")
       .attr("stroke", "#fff")
-      .style("stroke-dasharray", ("10,3"))
       .style("opacity", 0.5);
 }
   // Returns an event handler for fading a given chord group.
