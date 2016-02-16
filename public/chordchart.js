@@ -13,7 +13,7 @@ var width = 1000,
     height = 800,
     innerRadius = 200,
     outerRadius = innerRadius * 1.25;
-    
+
 function createChart(matrix) {
 
   var chord = d3.layout.chord()
@@ -32,7 +32,7 @@ function createChart(matrix) {
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ") rotate(-90)");
 
 //create inner black circle
-  var innerCircle = svg.append("circle")
+  svg.append("circle")
       .attr("r", innerRadius)
       .attr("fill", "#333");
 
@@ -92,6 +92,16 @@ function createChart(matrix) {
       .style("stroke", function(d) { return LightenDarkenColor(fill(d.source.index), 20);})
       .style("opacity", 1);
 
+
+//create radial lines
+for (var i = 0; i < 5; i++) {
+  svg.append("circle")
+      .attr("r", innerRadius + 50 * i)
+      .attr("fill", "none")
+      .attr("stroke", "#fff")
+      .style("stroke-dasharray", ("10,3"))
+      .style("opacity", 0.5);
+}
   // Returns an event handler for fading a given chord group.
   function fade(opacity) {
     return function(g, i) {
