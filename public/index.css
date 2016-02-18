@@ -13,7 +13,6 @@ body {
 #header {
     text-align: center;
     margin: 0 auto;
-    color: white;
     font-size: 3em;
     padding: 1em;
 }
@@ -28,6 +27,21 @@ body {
     z-index:-1;
 }
 
+#distLabel {
+  bottom: 10px;
+}
+
+#genreLabel {
+  bottom: -60px;
+}
+
+#distLabel, #genreLabel {
+  font-size: 40px;
+  position: absolute;
+  margin: 0px;
+  left: 15%;
+}
+
 #chart {
 	width: 1000px;
 	height: 800px;
@@ -39,7 +53,6 @@ body {
 }
 
 #colorButton {
-    color: white;
     font-size: 2em;
     margin-bottom: 1em;
 }
@@ -56,7 +69,6 @@ body {
 }
 
 #details {
-    color: white;
     font-size: 11pt;
     margin-top: 10px;
     padding: 10px;
@@ -75,4 +87,8 @@ td {
 h2 {
   font-size: 14pt;
   text-decoration: underline;
+}
+
+#details, #colorButton, #header, #distLabel, #genreLabel {
+  color: white;
 }
