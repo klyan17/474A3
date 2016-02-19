@@ -47,10 +47,8 @@ function createChart(matrix) {
       // .attr("d", d3.svg.arc().innerRadius(outerRadius).outerRadius(function(d) { return outerRadius + d.value * 1.5; }))
       .attr("d", d3.svg.arc().innerRadius(innerRadius).outerRadius(function(d) { return innerRadius + ((d.value/maxValue) * maxBarHeight) + minBarHeight; }))
       .on("mouseover", fade(.1))
-      .on("mouseover", highlight(true))
       .on("click", function(d) { displayInfo(d); })
-      .on("mouseout", fade(1))
-      .on("mouseout", highlight(false));
+      .on("mouseout", fade(1));
 
 //creates labels
   svg.append("g").selectAll("text")
@@ -110,17 +108,12 @@ for (var i = 0; i < 5; i++) {
           .filter(function(d) { return d.source.index != i && d.target.index != i; })
         .transition()
           .style("opacity", opacity);
-    };
-  }
-
-  function highlight(bool) {
-    return function(g, i) {
-      console.log(g);
+      
       svg.selectAll(".arcs")
-        .filter(function(d) { return d.index == i; })
-      .transition()
-        .style("stroke", bool ? "white" : LightenDarkenColor(fill(g.index), 20))
-        .style("stroke-width", bool ? "5px" : "1px");
+          .filter(function(d) {return d.index == i; })
+        .transition()
+          .style("stroke", (opacity == 1) ? LightenDarkenColor(fill(g.index), 20) : "white")
+          .style("stroke-width", (opacity == 1) ? "1px" : "5px");
     };
   }
 }
