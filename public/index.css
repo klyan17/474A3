@@ -89,6 +89,12 @@ h2 {
   text-decoration: underline;
 }
 
-#details, #colorButton, #header, #distLabel, #genreLabel {
+#details, #colorButton, #header, #distLabel, #genreLabel, footer {
   color: white;
+}
+
+footer {
+  font-size: 14px;
+  margin-top: 15px;
+  text-align: center;
 }
